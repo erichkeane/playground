@@ -16,6 +16,23 @@ void decrement(T& value)
     value.pop_back();
 }
 
+struct F
+{
+    template <typename T, typename = typename std::enable_if<
+    std::is_same<int, T>::value>::type >
+    void decrement(T& value)
+    {
+        -- value;
+    }
+
+    template <typename T, typename =typename std::enable_if<
+    std::is_same<std::string, T>::value>::type >
+    void decrement(T& value)
+    {
+        value.pop_back();
+    }
+};
+
 int main()
 {
     int i = 0;
@@ -24,5 +41,10 @@ int main()
     decrement(i);
     decrement(str);
 
+    std::cout << i << " "<<str<<std::endl;
+
+    F foo;
+    foo.decrement(i);
+    foo.decrement(str);
     std::cout << i << " "<<str<<std::endl;
 }
